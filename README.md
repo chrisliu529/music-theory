@@ -13,3 +13,17 @@ Given a minor scale:
 [0, 2, 3, 5, 7, 8, 10]
 [2, 5, 4, 3, 6, 1]
 ```
+
+So major scales are as expressive as minor scales.
+
+## Scale Calculator
+```
+$ruby scale.rb C
+C major scale:
+C D E F G A B
+
+$ruby scale.rb a
+A minor scale:
+A B C D E F G
+
+```
