@@ -27,7 +27,9 @@ class TestScale < Test::Unit::TestCase
             'C' => ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
             'a' => ["A", "B", "C", "D", "E", "F", "G"],
             'G' => ["G", "A", "B", "C", "D", "E", "F#"],
-            'g' => ["G", "A", "Bb", "C", "D", "Eb", "F"]
+            'g' => ["G", "A", "Bb", "C", "D", "Eb", "F"],
+            'D' => ["D", "E", "F#", "G", "A", "B", "C#"],
+            'B#' => ["B#", "Cx", "Dx", "E#", "Fx", "Gx", "Ax"]
         }
         cases.each do |k, v|
             t = Tonic.new(k)

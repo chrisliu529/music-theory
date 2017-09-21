@@ -20,16 +20,16 @@ class Tonic
         [
             ['C', 'B#'],
             ['C#', 'Db'],
-            ['D'],
+            ['D', 'Cx'],
             ['D#', 'Eb'],
-            ['E'],
+            ['E', 'Dx'],
             ['F', 'E#'],
             ['F#', 'Gb'],
-            ['G'],
+            ['G', 'Fx'],
             ['G#', 'Ab'],
-            ['A'],
+            ['A', 'Gx'],
             ['A#', 'Bb'],
-            ['B'],
+            ['B', 'Ax'],
         ]
     end
 
@@ -66,13 +66,24 @@ class Tonic
     def next_key(k, i)
         ki = key_index(k) + i
         if ki >= keys.length
-            ki = 0
+            ki -= keys.length
         end
-        k0 = keys[ki][0]
-        if k0[0] == k[0]
-            keys[ki][1]
+        name = next_keyname(k[0])
+        keys[ki].each do |n|
+            if n[0] == name
+                return n
+            end
+        end
+        raise "next_key(#{k}, #{i}) not found"
+    end
+
+    def next_keyname(name)
+        names = Array('A'..'G')
+        i = names.index(name) + 1
+        if i > 6
+            names[0]
         else
-            k0
+            names[i]
         end
     end
 
