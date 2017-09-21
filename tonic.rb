@@ -68,7 +68,12 @@ class Tonic
         if ki >= keys.length
             ki = 0
         end
-        keys[ki][0]
+        k0 = keys[ki][0]
+        if k0[0] == k[0]
+            keys[ki][1]
+        else
+            k0
+        end
     end
 
     def key_index(key)

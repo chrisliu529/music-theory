@@ -23,7 +23,15 @@ class TestScale < Test::Unit::TestCase
     end
 
     def test_scale
-        t = Tonic.new('C')
-        assert_equal(['C', 'D', 'E', 'F', 'G', 'A', 'B'],  t.scale)
+        cases = {
+            'C' => ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+            'a' => ["A", "B", "C", "D", "E", "F", "G"],
+            'G' => ["G", "A", "B", "C", "D", "E", "F#"],
+            'g' => ["G", "A", "Bb", "C", "D", "Eb", "F"]
+        }
+        cases.each do |k, v|
+            t = Tonic.new(k)
+            assert_equal(v,  t.scale)
+        end
     end
 end

@@ -16,7 +16,7 @@ if ARGV.length != 1
     exit(2)
 end
 
-t = new Tonic(ARGV[0])
+t = Tonic.new(ARGV[0])
 if t.error
     usage()
     exit(2)
