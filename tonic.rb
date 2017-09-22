@@ -15,7 +15,18 @@ class Tonic
         end
     end
 
+    def scale
+        key = note(@first, @variant)
+        s = [key]
+        intervals.each do |i|
+            k2 = next_key(key, i)
+            s << k2
+            key = k2
+        end
+        return s
+    end
 
+private
     def keys
         [
             ['C', 'B#'],
@@ -105,16 +116,5 @@ class Tonic
             v1 = 'b'
         end
         n + v1
-    end
-
-    def scale
-        key = note(@first, @variant)
-        s = [key]
-        intervals.each do |i|
-            k2 = next_key(key, i)
-            s << k2
-            key = k2
-        end
-        return s
     end
 end
