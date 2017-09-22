@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require "test/unit"
 require_relative "tonic"
 
@@ -27,9 +29,11 @@ class TestScale < Test::Unit::TestCase
             'C' => ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
             'a' => ["A", "B", "C", "D", "E", "F", "G"],
             'G' => ["G", "A", "B", "C", "D", "E", "F#"],
+            'F' => ["F", "G", "A", "Bb", "C", "D", "E"],
             'g' => ["G", "A", "Bb", "C", "D", "Eb", "F"],
             'D' => ["D", "E", "F#", "G", "A", "B", "C#"],
-            'B#' => ["B#", "Cx", "Dx", "E#", "Fx", "Gx", "Ax"]
+            'B#' => ["B#", "Cx", "Dx", "E#", "Fx", "Gx", "Ax"],
+            'db' => ["Db", "Eb", "Fb", "Gb", "Ab", "Bbb", "Cb"]
         }
         cases.each do |k, v|
             t = Tonic.new(k)
