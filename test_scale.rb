@@ -40,4 +40,64 @@ class TestScale < Test::Unit::TestCase
             assert_equal(v,  t.scale)
         end
     end
+
+    def move_key(key, n)
+        t = Tonic.new(key)
+        k1 = t.scale[n]
+        if t.major
+            k1
+        else
+            to_minor(k1)
+        end
+    end
+
+    def to_minor(key)
+        key[0].downcase + key[1..key.length]
+    end
+
+    def insert_key(result, key)
+        s = Tonic.new(key).scale
+        if s.any?{|k| k.length == 3 or k.include? 'x'}
+            false
+        else
+            result[key] = s
+            true
+        end
+    end
+
+    def simple_scales(key)
+        result = {}
+        insert_key(result, key)
+        queue = [key]
+        visited = {}
+        while queue.length > 0 do
+            key = queue.shift
+            visited[key] = true
+            k1 = move_key(key, 4)
+            k2 = move_key(key, 3)
+            if insert_key(result, k1)
+                queue.push(k1) unless visited[k1]
+            end
+            if insert_key(result, k2)
+                queue.push(k2) unless visited[k2]
+            end
+        end
+        result
+    end
+
+    def test_5degree
+        ss = simple_scales('C')
+        puts "\n#{ss.length} simple major scales:"
+        ss.each do |k, v|
+            puts
+            p k, v
+        end
+
+        ss = simple_scales('a')
+        puts "\n#{ss.length} simple minor scales:"
+        ss.each do |k, v|
+            puts
+            p k, v
+        end
+    end
 end
