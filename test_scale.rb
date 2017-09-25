@@ -55,31 +55,24 @@ class TestScale < Test::Unit::TestCase
         key[0].downcase + key[1..key.length]
     end
 
-    def insert_key(result, key)
-        s = Tonic.new(key).scale
-        if s.any?{|k| k.length == 3 or k.include? 'x'}
-            false
-        else
-            result[key] = s
-            true
-        end
+    def is_simple?(s)
+        not s.any?{|k| k.length == 3 or k.include? 'x'}
     end
 
     def simple_scales(key)
-        result = {}
-        insert_key(result, key)
+        result = {key => Tonic.new(key).scale}
         queue = [key]
         visited = {}
         while queue.length > 0 do
             key = queue.shift
             visited[key] = true
-            k1 = move_key(key, 4)
-            k2 = move_key(key, 3)
-            if insert_key(result, k1)
-                queue.push(k1) unless visited[k1]
-            end
-            if insert_key(result, k2)
-                queue.push(k2) unless visited[k2]
+            (3..4).each do |i|
+                k = move_key(key, i)
+                s = Tonic.new(k).scale
+                if is_simple?(s)
+                    result[k] = s
+                    queue.push(k) unless visited[k]
+                end
             end
         end
         result
@@ -87,6 +80,7 @@ class TestScale < Test::Unit::TestCase
 
     def test_5degree
         ss = simple_scales('C')
+        assert_equal(15, ss.length)
         puts "\n#{ss.length} simple major scales:"
         ss.each do |k, v|
             puts
@@ -94,6 +88,7 @@ class TestScale < Test::Unit::TestCase
         end
 
         ss = simple_scales('a')
+        assert_equal(15, ss.length)
         puts "\n#{ss.length} simple minor scales:"
         ss.each do |k, v|
             puts
