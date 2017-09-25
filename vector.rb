@@ -1,9 +1,7 @@
 def d(a, b)
     v = (a-b).abs
-    if v > 6
-        v = 12 - v
-    end
-    return v
+    v = 12 - v if v > 6
+    v
 end
 
 def vector(keys)
@@ -14,7 +12,7 @@ def vector(keys)
             v[d(keys[i], keys[j])-1] += 1
         end
     end
-    return v
+    v
 end
 
 s = ARGF.read

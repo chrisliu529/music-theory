@@ -17,13 +17,10 @@ class Tonic
 
     def scale
         key = note(@first, @variant)
-        s = [key]
-        intervals.each do |i|
-            k2 = next_key(key, i)
-            s << k2
-            key = k2
+        intervals.inject([key]) do |acc, i|
+            key = next_key(key, i)
+            acc << key
         end
-        return s
     end
 
 private
@@ -76,45 +73,32 @@ private
 
     def next_key(k, i)
         ki = key_index(k) + i
-        if ki >= keys.length
-            ki -= keys.length
-        end
+        ki -= keys.length if ki >= keys.length
         name = next_keyname(k[0])
-        keys[ki].each do |n|
-            if n[0] == name
-                return n
-            end
-        end
+        keys[ki].each {|n| return n if n[0] == name}
         raise "next_key(#{k}, #{i}) not found"
     end
 
     def next_keyname(name)
         names = Array('A'..'G')
         i = names.index(name) + 1
-        if i > 6
-            names[0]
-        else
-            names[i]
-        end
+        i = 0 if i > 6
+        names[i]
     end
 
     def key_index(key)
-        keys.each_with_index do |s, i|
-            s.each do |k|
-                if k == key
-                    return i
-                end
-            end
-        end
+        keys.each_with_index {|s, i| s.each {|k| return i if k == key}}
     end
 
     def note(n, v)
-        v1 = ''
-        if v == 'sharp'
-            v1 = '#'
-        elsif v == 'flat'
-            v1 = 'b'
-        end
+        v1 =
+            if v == 'sharp'
+                '#'
+            elsif v == 'flat'
+                'b'
+            else
+                ''
+            end
         n + v1
     end
 end
